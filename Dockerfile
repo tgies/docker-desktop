@@ -17,7 +17,7 @@
 # Date: 07/28/2013
 
 
-FROM ubuntu:14.04
+FROM ubuntu:12.04
 MAINTAINER Tony Gies "tony.gies@gruppe86.net"
 
 RUN apt-get update
