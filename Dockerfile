@@ -37,18 +37,9 @@ RUN echo X11Forwarding yes >> /etc/ssh/ssh_config
 # Upstart and DBus have issues inside docker. We work around in order to install firefox.
 RUN dpkg-divert --local --rename --add /sbin/initctl && ln -sf /bin/true /sbin/initctl
 
-# Installing fuse package (libreoffice-java dependency) and it's going to try to create
-# a fuse device without success, due the container permissions. || : help us to ignore it. 
-# Then we are going to delete the postinst fuse file and try to install it again!
-# Thanks Jerome for helping me with this workaround solution! :)
-# Now we are able to install the libreoffice-java package  
-RUN apt-get -y install fuse  || :
-RUN rm -rf /var/lib/dpkg/info/fuse.postinst
-RUN apt-get -y install fuse
-
 # Installing the apps: Firefox, flash player plugin, LibreOffice and xterm
 # libreoffice-base installs libreoffice-java mentioned before
-RUN apt-get install -y libreoffice-base firefox libreoffice-gtk libreoffice-calc xterm
+RUN apt-get install -y firefox xterm
 
 # Set locale (fix the locale warnings)
 RUN localedef -v -c -i en_US -f UTF-8 en_US.UTF-8 || :
